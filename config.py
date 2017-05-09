@@ -1,3 +1,6 @@
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'this-is-my-super-secret-key-i-will-never-guess'
 
@@ -8,3 +11,7 @@ OPENID_PROVIDERS = [
     {'name': 'Flickr', 'url': 'http://www.flickr.com/<username>'},
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}
 ]
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://test_user:test_pass@localhost:5432/microblog'
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+
