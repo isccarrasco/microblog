@@ -22,4 +22,5 @@ subprocess.call([os.path.join('flask', bin, 'pip'), 'install', '--upgrade', 'gue
 subprocess.call([os.path.join('flask', bin, 'pip'), 'install', '--upgrade', 'flipflop'])
 subprocess.call([os.path.join('flask', bin, 'pip'), 'install', '--upgrade', 'coverage'])
 subprocess.call([os.path.join('flask', bin, 'pip'), 'install', '--upgrade', 'psycopg2'])
+subprocess.call([os.path.join('flask', bin, 'pip'), 'install', '--upgrade', 'rauth'])
 
