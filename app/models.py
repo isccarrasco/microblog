@@ -1,3 +1,4 @@
+from hashlib import md5
 from flask_login import UserMixin
 from app import db
 
@@ -7,6 +8,8 @@ class User(UserMixin, db.Model):
     social_id = db.Column(db.String(64), nullable=False, unique=True, default='')
     nickname = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
+    about_me = db.Column(db.String(140))
+    last_seen = db.Column(db.DateTime)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     @property
@@ -27,6 +30,10 @@ class User(UserMixin, db.Model):
         except:
             return str(self.id)
 
+    def avatar(self, size):
+        gravatar_email = self.email if self.email is not None else 'example@mail.com'
+        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(gravatar_email.encode('utf-8')).hexdigest(), size)
+    
     def __repr__(self):
         return '<User %r>' % (self.nickname)
 
