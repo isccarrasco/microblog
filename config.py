@@ -15,3 +15,13 @@ OPENID_PROVIDERS = [
 SQLALCHEMY_DATABASE_URI = 'postgresql://test_user:test_pass@localhost:5432/microblog'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
+OAUTH_CREDENTIALS = {
+    'facebook': {
+        'id': '711315752236767',
+        'secret': '7dc308b063b0960332a0f13f642ff974'
+    },
+    'twitter': {
+        'id': 'sYDQZ91SinKhYDomrhx7ZzAiZ',
+        'secret': 'GUwKB5Nsrn2q2VObfWxq5suQh8JmX60MgepJFfTJKofmgxR9ON'
+    }
+}
