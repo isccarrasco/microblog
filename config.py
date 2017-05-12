@@ -25,3 +25,12 @@ OAUTH_CREDENTIALS = {
         'secret': 'GUwKB5Nsrn2q2VObfWxq5suQh8JmX60MgepJFfTJKofmgxR9ON'
     }
 }
+
+# mail server settings
+MAIL_SERVER = 'localhost'
+MAIL_PORT = 25
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
+
+# administrator list
+ADMINS = ['isccarrasco@icoud.com']
