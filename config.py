@@ -34,3 +34,7 @@ MAIL_PASSWORD = None
 
 # administrator list
 ADMINS = ['isccarrasco@icoud.com']
+
+# pagination
+POSTS_PER_PAGE = 3
+
