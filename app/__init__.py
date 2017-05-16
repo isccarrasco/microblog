@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flask_login import LoginManager
 from flask_openid import OpenID
+from flask_mail import Mail
 
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 
@@ -23,6 +24,8 @@ lm.login_view = 'login'
 # Instance of OpenID
 oid = OpenID(app, os.path.join(basedir, 'tmp'))
 
+# Instance of Mail
+mail = Mail(app)
 
 from app import views, models
 
