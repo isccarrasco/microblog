@@ -27,7 +27,9 @@ oid = OpenID(app, os.path.join(basedir, 'tmp'))
 from app import views, models
 
 
-if not app.debug:
+# Uncomment the line below if you run on production
+# if not app.debug:
+if app.debug:
     import logging
 
     # Uncomment this if you want yo send email on each exception
