@@ -27,13 +27,16 @@ OAUTH_CREDENTIALS = {
 }
 
 # mail server settings
-MAIL_SERVER = 'localhost'
-MAIL_PORT = 25
-MAIL_USERNAME = None
-MAIL_PASSWORD = None
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = 'user@gmail.com'
+MAIL_PASSWORD = 'pass'
+
 
 # administrator list
-ADMINS = ['isccarrasco@icoud.com']
+ADMINS = ['isccarrasco@icloud.com']
 
 # pagination
 POSTS_PER_PAGE = 3
