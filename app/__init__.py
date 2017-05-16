@@ -9,6 +9,8 @@ from flask_mail import Mail
 
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 
+from .momentjs import momentjs
+
 # Instance of Flask
 app = Flask(__name__)
 app.config.from_object('config')
@@ -26,6 +28,9 @@ oid = OpenID(app, os.path.join(basedir, 'tmp'))
 
 # Instance of Mail
 mail = Mail(app)
+
+# Adding momentjs
+app.jinja_env.globals['momentjs'] = momentjs
 
 from app import views, models
 
