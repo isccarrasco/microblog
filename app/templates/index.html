@@ -1,39 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Hi, {{ g.user.nickname }}!</h1>
-    <form action="" method="post" name="post">
-      {{ form.hidden_tag() }}
-      <table>
-          <tr>
-	      <td>Say something:</td>
-              <td>{{ form.post(size=30, maxlength=140) }}</td>
-              <td>
-              {% for error in form.post.errors %}
-              <span style="color: red;">[{{ error }}]</span><br>
-              {% endfor %}
-              </td>
-          </tr>
-          <tr>
-              <td></td>
-              <td><input type="submit" value="Post!"></td>
-              <td></td>
-          </tr>
-      </table>
-    </form>
-    
+    {% include 'flash.html' %}
+
+    <div class="well">
+
+        <form class="form-horizontal" action="" method="post" name="post">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group {% if form.errors.post %} error{% endif %}">
+                <label class="col-sm-2 control-label" for="post">Say something:</label>
+                <div class="col-sm-4">
+                    {{ form.post(size = 30, maxlength = 140, class = "form-control") }}
+                    {% for error in form.errors.post %}
+                        <span class="help-inline">[{{error}}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Post!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     {% for post in posts.items %}
         {% include 'post.html' %}
     {% endfor %}
-    
-    {% if posts.has_prev %}
-    <a href="{{ url_for('index', page=posts.prev_num) }}">&lt;&lt; Newer posts</a>
-    {% else %}
-    &lt;&lt; Newer posts
-    {% endif %} | 
-    
-    {% if posts.has_next %}
-    <a href="{{ url_for('index', page=posts.next_num) }}">Older posts &gt;&gt;</a>
-    {% else %}
-    Older posts &gt;&gt;
-    {% endif %}
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+
+            <li class="{% if not posts.has_prev %} disabled {%  endif %}">
+                {% if posts.has_prev %}
+                <a href="{{ url_for('index', page=posts.prev_num) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Newer posts</span>
+                </a>
+                {% else %}
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Newer posts</span>
+                </a>
+                {% endif %}
+            </li>
+
+            <li class="{% if not posts.has_next %} disabled {%  endif %}">
+                {% if posts.has_next %}
+                <a href="{{ url_for('index', page = posts.next_num) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo; Older posts</span>
+                </a>
+                {% else %}
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo; Older posts</span>
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
 {% endblock %}
