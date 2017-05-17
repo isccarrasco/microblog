@@ -17,3 +17,7 @@ test.db
 
 # Search Full Text
 search.db/
+
+# Translate files
+*.mo
+
