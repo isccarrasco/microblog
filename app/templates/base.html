@@ -16,7 +16,7 @@
               integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
               crossorigin="anonymous">
 
-	<script src="/static/js/moment.min.js"></script>
+	<script src="/static/js/moment-with-locales.js"></script>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,6 +33,9 @@
     </head>
 
     <body>
+	<script>
+            moment.locale('{{ g.locale }}')
+	</script>
         <div class="container">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -51,17 +54,17 @@
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a></li>
+			    <li><a href="{{ url_for('index') }}">{{ _('Home') }} <span class="sr-only">(current)</span></a></li>
                             {% if g.user.is_authenticated %}
-                            <li><a href="{{ url_for('user', nickname = g.user.nickname) }}">Your Profile</a></li>
-                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+			    <li><a href="{{ url_for('user', nickname = g.user.nickname) }}">{{ _('Your Profile') }}</a></li>
+			    <li><a href="{{ url_for('logout') }}">{{ _('Logout') }}</a></li>
                             {% endif %}
                         </ul>
                         {% if g.user.is_authenticated %}
                         <form class="navbar-form navbar-right" action="{{url_for('search')}}" method="post" name="search">
                             {{g.search_form.hidden_tag()}}
                             <div class="form-group">
-                            {{g.search_form.search(size=20,placeholder="Search",class="form-control")}}
+				    {{g.search_form.search(size=20,placeholder="{{ _('Search') }}",class="form-control")}}
                             </div>
                             <button type="submit" class="btn btn-default">Search</button>
                         </form>

@@ -1,4 +1,5 @@
 import sys
+import re
 
 from hashlib import md5
 from flask_login import UserMixin
@@ -59,6 +60,10 @@ class User(UserMixin, db.Model):
             version += 1
 
         return new_nickname
+
+    @staticmethod
+    def make_valid_nickname(nickname):
+        return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
 
     def get_id(self):
         try:
