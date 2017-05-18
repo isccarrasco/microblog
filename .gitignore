@@ -21,3 +21,5 @@ search.db/
 # Translate files
 *.mo
 
+# Coverage reports
+tmp/coverage/
