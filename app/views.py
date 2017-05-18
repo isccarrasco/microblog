@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import render_template, flash, redirect
 from flask import session, url_for, request, g
 from flask import jsonify
+from flask_sqlalchemy import get_debug_queries
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_babel import gettext
 from guess_language import guessLanguage
@@ -16,6 +17,15 @@ from .emails import follower_notification
 from .translate import microsoft_translate
 
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
+from config import DATABASE_QUERY_TIMEOUT
+
+
+@app.after_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= DATABASE_QUERY_TIMEOUT:
+            app.logger.warning("SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" % (query.statement, query.parameters, query.duration, query.context))
+    return response
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -283,3 +293,23 @@ def translate():
             request.form['text'], 
             request.form['sourceLang'], 
             request.form['destLang']) })
+
+
+@app.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    post = Post.query.get(id)
+    if post is None:
+        flash('Post not found.')
+        return redirect(url_for('index'))
+
+    if post.author.id != g.user.id:
+        flash('You cannot delete this post.')
+        return redirect(url_for('index'))
+
+    db.session.delete(post)
+    db.session.commit()
+    
+    flash('Your post has been deleted.')
+
+    return redirect(url_for('index'))
