@@ -2,8 +2,10 @@ from datetime import datetime
 
 from flask import render_template, flash, redirect
 from flask import session, url_for, request, g
+from flask import jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_babel import gettext
+from guess_language import guessLanguage
 
 from app import app, db, lm, oid, babel
 from oauth import OAuthSignIn
@@ -11,6 +13,7 @@ from oauth import OAuthSignIn
 from .forms import LoginForm, EditForm, PostForm, SearchForm
 from .models import User, Post
 from .emails import follower_notification
+from .translate import microsoft_translate
 
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
 
@@ -22,7 +25,14 @@ from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
 def index(page=1):
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, timestamp=datetime.utcnow(), author=g.user)
+        language = guessLanguage(form.post.data)
+        if language == 'UNKNOWN' or len(language) > 5:
+            language = ''
+
+        post = Post(body=form.post.data, 
+                    timestamp=datetime.utcnow(), 
+                    author=g.user,
+                    language=language)
         db.session.add(post)
         db.session.commit()
 
@@ -264,3 +274,12 @@ def get_locale():
     # Enforcing  to change the locale to spanish
     return 'es'
 
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate():
+    return jsonify({ 
+        'text': microsoft_translate(
+            request.form['text'], 
+            request.form['sourceLang'], 
+            request.form['destLang']) })
