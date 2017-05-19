@@ -14,7 +14,11 @@ OPENID_PROVIDERS = [
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}
 ]
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://test_user:test_pass@localhost:5432/microblog'
+if os.environ.get('DATABASE_URL') is None:
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+else:
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    #SQLALCHEMY_DATABASE_URI = 'postgresql://test_user:test_pass@localhost:5432/microblog'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 OAUTH_CREDENTIALS = {
