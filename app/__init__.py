@@ -45,8 +45,8 @@ from app import views, models
 
 
 # Uncomment the line below if you run on production
-# if not app.debug:
-if app.debug:
+if not app.debug and os.environ.get('HEROKU') is None:
+# if app.debug:
     import logging
 
     # Uncomment this if you want yo send email on each exception
@@ -70,5 +70,13 @@ if app.debug:
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
+    app.logger.info('microblog startup')
+
+
+if os.environ.get('HEROKU') is not None:
+    import logging
+    stream_handler = logging.StreamHandler()
+    app.logger.addHandler(stream_handler)
+    app.logger.setLevel(logging.INFO)
     app.logger.info('microblog startup')
 

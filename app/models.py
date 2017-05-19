@@ -5,11 +5,17 @@ from hashlib import md5
 from flask_login import UserMixin
 from app import app, db
 
+from config import WHOOSH_ENABLED
+
+
+enable_search = WHOOSH_ENABLED
+
 if sys.version_info >= (3, 0):
     enable_search = False
 else:
-    enable_search = True
-    import flask_whooshalchemy as whooshalchemy
+    if enable_search:
+        enable_search = True
+        import flask_whooshalchemy as whooshalchemy
 
 
 followers = db.Table('followers',
