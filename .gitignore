@@ -19,7 +19,7 @@ test.db
 search.db/
 
 # Translate files
-*.mo
+# *.mo
 
 # Coverage reports
 tmp/coverage/
